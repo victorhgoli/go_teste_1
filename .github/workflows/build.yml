@@ -8,6 +8,7 @@ on:
     branches:
       - main
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,8 +25,28 @@ jobs:
       - name: Build
         run: go build -o myapp
 
+      - name: Build Docker image
+        run: docker build -t myapp-image .
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to AWS ECR
+        run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 590184040663.dkr.ecr.us-east-1.amazonaws.com
+
+      - name: Tag Docker image
+        run: docker tag myapp-image:latest 590184040663.dkr.ecr.us-east-1.amazonaws.com/myapp-image:latest
+
+      - name: Push Docker image to AWS ECR
+        run: docker push 590184040663.dkr.ecr.us-east-1.amazonaws.com/myapp-image:latest
+
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
           name: myapp
           path: myapp
+
