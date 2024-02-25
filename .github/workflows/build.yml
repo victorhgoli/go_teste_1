@@ -22,11 +22,8 @@ jobs:
         with:
           go-version: 1.x
 
-      - name: Build
-        run: go build -o myapp
-
       - name: Build Docker image
-        run: docker build -t myapp-image .
+        run: docker build -t tme-teste-go1 .
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -39,14 +36,8 @@ jobs:
         run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 590184040663.dkr.ecr.us-east-1.amazonaws.com
 
       - name: Tag Docker image
-        run: docker tag myapp-image:latest 590184040663.dkr.ecr.us-east-1.amazonaws.com/myapp-image:latest
+        run: docker tag tme-teste-go1:latest 590184040663.dkr.ecr.us-east-1.amazonaws.com/tme-teste-go1:latest
 
       - name: Push Docker image to AWS ECR
-        run: docker push 590184040663.dkr.ecr.us-east-1.amazonaws.com/myapp-image:latest
-
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: myapp
-          path: myapp
+        run: docker push 590184040663.dkr.ecr.us-east-1.amazonaws.com/tme-teste-go1:latest
 
