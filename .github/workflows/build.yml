@@ -36,7 +36,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Login to AWS ECR
-        run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 590184040663.dkr.ecr.us-east-1.amazonaws.com
+        run: aws ecr get-login-password --region us-east-1 | docker login --username TME-CI-CD --password-stdin 590184040663.dkr.ecr.us-east-1.amazonaws.com
 
       - name: Tag Docker image
         run: docker tag myapp-image:latest 590184040663.dkr.ecr.us-east-1.amazonaws.com/myapp-image:latest
