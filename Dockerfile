@@ -1,5 +1,5 @@
 # Imagem base
-FROM golang:1.18
+FROM golang:1.21.6
 
 # Definir diretório de trabalho
 WORKDIR /app
