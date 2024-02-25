@@ -8,6 +8,6 @@ WORKDIR /app
 COPY . .
 
 # Compilar a aplicação
-RUN CGO_ENABLED=0 GOOS=linux GOARCh=amd64 go build -o server
+RUN CGO_ENABLED=0 GOOS=linux GOARCh=amd64 go build -o myapp
 
-ENTRYPOINT [ "/app/server" ]
+ENTRYPOINT [ "/app/myapp" ]
