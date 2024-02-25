@@ -1,5 +1,5 @@
 # Imagem base
-FROM golang:1.21.6
+FROM golang:1.21.6 as builder
 
 # Definir diretório de trabalho
 WORKDIR /app
@@ -10,4 +10,9 @@ COPY . .
 # Compilar a aplicação
 RUN CGO_ENABLED=0 GOOS=linux GOARCh=amd64 go build -o myapp
 
-ENTRYPOINT [ "/app/myapp" ]
+
+FROM scratch
+
+COPY --from=builder /app/myapp /app/myapp
+
+ENTRYPOINT [ "/myapp" ]
